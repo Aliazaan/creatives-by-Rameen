@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rameen Razi — Fashion Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Outfit:wght@200;300;400;500&family=EB+Garamond:ital@1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* Dusty Rose + Sage Green + Warm Ivory palette */
+  --ink:#2E2C28;
+  --ink2:#3C3A35;
+  --paper:#F7F3EB;
+  --paper2:#EFEAE2;
+  --rose:#C7A4A8;
+  --rose-light:#EAD8DB;
+  --rose-deep:#9E7B7F;
+  --sage:#A8B7A7;
+  --sage-light:#D4DFD3;
+  --sage-deep:#7A8B7A;
+  --gold:#C9B99A;
+  --mist:#8A827A;
+  --border:#D6CFC4;
+  --df:'Playfair Display',Georgia,serif;
+  --bf:'Outfit',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--bf);
+  background:var(--paper);
+  color:var(--ink);
+  font-weight:300;
+  overflow-x:hidden;
+  cursor:none;
+  line-height:1.6;
+}
+/* ─── CURSOR ─── */
+.cursor{
+  position:fixed;
+  top:0;left:0;
+  width:10px;height:10px;
+  background:var(--rose);
+  border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform .15s,width .3s,height .3s,background .3s;
+}
+.cursor-ring{
+  position:fixed;
+  top:0;left:0;
+  width:36px;height:36px;
+  border:1px solid rgba(199,164,168,.45);
+  border-radius:50%;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:transform .08s linear;
+}
+body.hovering .cursor{
+  width:48px;height:48px;
+  background:transparent;
+  border:1px solid var(--rose);
+}
+body.hovering .cursor-ring{opacity:0}
+
+/* ─── LOADER ─── */
+.loader{
+  position:fixed;inset:0;
+  background:var(--paper2);
+  z-index:9000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:2rem;
+  transition:opacity .8s,visibility .8s;
+}
+.loader.hidden{opacity:0;visibility:hidden}
+.loader-name{
+  font-family:var(--df);
+  font-size:clamp(2.5rem,6vw,5rem);
+  font-weight:400;
+  color:var(--ink);
+  letter-spacing:.05em;
+  overflow:hidden;
+}
+.loader-name span{
+  display:inline-block;
+  transform:translateY(100%);
+  animation:slideUp .9s cubic-bezier(.16,1,.3,1) forwards;
+}
+.loader-name span:nth-child(2){animation-delay:.12s}
+.loader-name span:nth-child(3){animation-delay:.22s}
+.loader-bar-wrap{width:200px;height:1px;background:rgba(46,44,40,.15)}
+.loader-bar{
+  height:1px;
+  background:var(--sage);
+  width:0;
+  animation:loadBar 1.6s cubic-bezier(.16,1,.3,1) .4s forwards;
+}
+@keyframes slideUp{to{transform:translateY(0)}}
+@keyframes loadBar{to{width:100%}}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0 3.5rem;height:72px;
+  transition:background .5s,border-color .5s,box-shadow .5s;
+}
+nav.scrolled{
+  background:rgba(247,243,235,.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 1px 8px rgba(0,0,0,.03);
+}
+.nav-logo{
+  font-family:var(--df);
+  font-size:1.25rem;
+  color:var(--ink);
+  text-decoration:none;
+  letter-spacing:.04em;
+  font-style:italic;
+}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{
+  font-size:.68rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--mist);
+  text-decoration:none;
+  transition:color .3s;
+  position:relative;
+}
+.nav-links a::after{
+  content:'';
+  position:absolute;
+  left:0;bottom:-3px;
+  width:0;height:1px;
+  background:var(--sage);
+  transition:width .4s cubic-bezier(.16,1,.3,1);
+}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{width:100%}
+.nav-toggle{
+  display:none;
+  flex-direction:column;gap:5px;
+  background:none;border:none;
+  cursor:pointer;padding:4px;
+}
+.nav-toggle span{display:block;width:22px;height:1px;background:var(--ink);transition:all .3s}
+
+/* ─── HERO ─── */
+.hero{
+  height:100vh;
+  position:relative;
+  display:flex;
+  align-items:flex-end;
+  overflow:hidden;
+  background:var(--paper);
+}
+.hero-bg{
+  position:absolute;
+  inset:0;
+  background: var(--sage-light);
+  opacity:0.15;
+  transform: scale(1.02);
+  transition: transform 0.4s ease-out;
+}
+.hero-grid-overlay{
+  position:absolute;
+  inset:0;
+  background-image:linear-gradient(rgba(46,44,40,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(46,44,40,.04) 1px,transparent 1px);
+  background-size:80px 80px;
+  opacity:.4;
+  animation: slowShift 30s linear infinite;
+}
+@keyframes slowShift{
+  0%{background-position:0 0}
+  100%{background-position:80px 80px}
+}
+.hero-content{
+  position:relative;z-index:2;
+  padding:0 3.5rem 6rem;
+  width:100%;
+}
+.hero-eyebrow{
+  font-size:.65rem;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:var(--rose-deep);
+  margin-bottom:2.5rem;
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  opacity:0;
+  animation:fadeUp .8s 1.8s cubic-bezier(.16,1,.3,1) forwards;
+}
+.hero-eyebrow::before{
+  content:'';
+  display:block;
+  width:40px;height:1px;
+  background:var(--rose);
+}
+.hero-name{
+  font-family:var(--df);
+  font-size:clamp(5rem,12vw,13rem);
+  font-weight:400;
+  line-height:.92;
+  color:var(--ink);
+  overflow:hidden;
+  margin-bottom:3rem;
+}
+.hero-name-line{
+  display:block;
+  overflow:hidden;
+}
+.hero-name-line span{
+  display:block;
+  transform:translateY(105%);
+  animation:slideUp .95s cubic-bezier(.16,1,.3,1) forwards;
+}
+.hero-name-line:nth-child(1) span{animation-delay:1.8s}
+.hero-name-line:nth-child(2) span{
+  animation-delay:1.95s;
+  font-style:italic;
+  color:var(--rose);
+}
+.hero-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  opacity:0;
+  animation:fadeUp .8s 2.3s cubic-bezier(.16,1,.3,1) forwards;
+}
+.hero-tagline{
+  font-size:.9rem;
+  line-height:1.8;
+  color:rgba(46,44,40,.5);
+  max-width:380px;
+  font-weight:300;
+}
+.hero-scroll{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.75rem;
+  font-size:.6rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--mist);
+}
+.hero-scroll-line{
+  width:1px;height:60px;
+  background:linear-gradient(var(--sage),transparent);
+  animation:scrollPulse 2.5s infinite;
+}
+@keyframes scrollPulse{
+  0%{transform:scaleY(0);transform-origin:top}
+  50%{transform:scaleY(1);transform-origin:top}
+  51%{transform:scaleY(1);transform-origin:bottom}
+  100%{transform:scaleY(0);transform-origin:bottom}
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:none}
+}
+.hero-index{
+  position:absolute;
+  right:3.5rem;top:50%;
+  transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:1rem;
+  z-index:2;
+  opacity:0;
+  animation:fadeUp .8s 2.5s forwards;
+}
+.hero-index-dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:rgba(46,44,40,.2);
+  cursor:pointer;
+  transition:all .3s;
+}
+.hero-index-dot.active{
+  background:var(--sage-deep);
+  transform:scale(1.4);
+}
+
+/* ─── SECTION BASE ─── */
+.sect{padding:9rem 3.5rem}
+.sect-dark{background:var(--paper);color:var(--ink)}
+.sect-light{background:var(--paper2);color:var(--ink)}
+.sect-paper{background:var(--sage-light);color:var(--ink)}
+
+.reveal{
+  opacity:0;transform:translateY(40px);
+  transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);
+}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+.reveal-delay-4{transition-delay:.4s}
+
+.sect-label{
+  font-size:.62rem;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--rose-deep);
+  margin-bottom:1.25rem;
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+}
+.sect-label::before{content:'';display:block;width:28px;height:1px;background:var(--rose)}
+.sect-title{
+  font-family:var(--df);
+  font-size:clamp(2.8rem,5vw,5.5rem);
+  font-weight:400;
+  line-height:1.08;
+  margin-bottom:1.5rem;
+  color:var(--ink);
+}
+.sect-title em{font-style:italic;color:var(--rose)}
+.sect-title-light em{color:var(--rose-deep)}
+
+/* ─── ABOUT ─── */
+.about-wrap{display:grid;grid-template-columns:1fr 1.4fr;gap:8rem;margin-top:5rem;align-items:start}
+.about-photo-frame{position:sticky;top:6rem}
+.about-photo{
+  width:100%;
+  aspect-ratio:2/3;
+  background:var(--paper2);
+  border-radius:1px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 12px 30px rgba(0,0,0,.06);
+}
+.about-photo-label{
+  font-size:.62rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--mist);
+}
+.about-photo::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border:1px solid rgba(199,164,168,.2);
+  z-index:1;
+  pointer-events:none;
+}
+.about-text p{
+  font-size:.975rem;
+  line-height:2;
+  color:rgba(46,44,40,.65);
+  margin-bottom:1.75rem;
+}
+.about-text p.lead{
+  font-family:var(--df);
+  font-size:1.5rem;
+  font-weight:400;
+  line-height:1.6;
+  color:var(--ink);
+  margin-bottom:2.5rem;
+  font-style:italic;
+}
+.achiev-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:.75rem 2rem;
+  margin-top:3rem;
+  padding-top:3rem;
+  border-top:1px solid var(--border);
+}
+.achiev-item{
+  display:flex;
+  gap:.75rem;
+  align-items:flex-start;
+  font-size:.82rem;
+  line-height:1.6;
+  color:var(--ink2);
+}
+.achiev-item::before{
+  content:'';
+  width:3px;height:3px;
+  background:var(--rose);
+  border-radius:50%;
+  flex-shrink:0;
+  margin-top:.55rem;
+}
+
+/* ─── SKILLS ─── */
+.skills-marquee-wrap{
+  overflow:hidden;
+  margin:4rem -3.5rem 0;
+  padding:2.5rem 0;
+  border-top:1px solid rgba(46,44,40,.08);
+  border-bottom:1px solid rgba(46,44,40,.08);
+}
+.skills-marquee{
+  display:flex;
+  gap:3rem;
+  width:max-content;
+  animation:marquee 25s linear infinite;
+}
+.skills-marquee:hover{animation-play-state:paused}
+@keyframes marquee{to{transform:translateX(-50%)}}
+.marquee-item{
+  font-family:var(--df);
+  font-size:1.1rem;
+  color:rgba(46,44,40,.2);
+  white-space:nowrap;
+  font-style:italic;
+}
+.marquee-item.hi{color:var(--rose)}
+.skills-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  margin-top:5rem;
+  border:1px solid rgba(46,44,40,.08);
+}
+.skill-col{
+  padding:3rem 2.5rem;
+  border-right:1px solid rgba(46,44,40,.08);
+  position:relative;
+  overflow:hidden;
+}
+.skill-col:last-child{border-right:none}
+.skill-col::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;
+  width:0;height:1px;
+  background:var(--sage);
+  transition:width .6s cubic-bezier(.16,1,.3,1);
+}
+.skill-col:hover::after{width:100%}
+.skill-col-num{
+  font-family:var(--df);
+  font-size:4rem;
+  color:rgba(46,44,40,.04);
+  position:absolute;
+  top:1.5rem;right:1.5rem;
+  line-height:1;
+  font-weight:400;
+}
+.skill-col-title{
+  font-family:var(--df);
+  font-size:1.35rem;
+  font-style:italic;
+  color:var(--ink);
+  margin-bottom:.5rem;
+}
+.skill-col-sub{
+  font-size:.65rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--rose-deep);
+  margin-bottom:2rem;
+}
+.skill-tag{
+  display:inline-block;
+  font-size:.72rem;
+  color:rgba(46,44,40,.5);
+  border:1px solid rgba(46,44,40,.1);
+  padding:.3rem .8rem;
+  border-radius:20px;
+  margin:.25rem;
+  transition:all .3s;
+}
+.skill-tag:hover{
+  color:var(--ink);
+  border-color:var(--sage);
+  background:rgba(168,183,167,.12);
+}
+
+/* ─── PORTFOLIO ─── */
+.port-nav-wrap{
+  position:sticky;
+  top:72px;
+  z-index:500;
+  background:var(--paper2);
+  border-bottom:1px solid var(--border);
+}
+.port-nav{
+  display:flex;
+  gap:0;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.port-nav::-webkit-scrollbar{display:none}
+.port-btn{
+  background:none;
+  border:none;
+  font-family:var(--bf);
+  font-size:.65rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--mist);
+  cursor:pointer;
+  padding:1.35rem 1.6rem;
+  border-bottom:2px solid transparent;
+  white-space:nowrap;
+  transition:all .3s;
+  position:relative;
+}
+.port-btn:hover{color:var(--ink)}
+.port-btn.active{
+  color:var(--rose-deep);
+  border-bottom-color:var(--rose);
+}
+
+.port-panel{
+  display:none;
+  padding:5rem 3.5rem 8rem;
+  background:var(--paper);
+}
+.port-panel.active{display:block}
+.port-panel-header{
+  display:grid;
+  grid-template-columns:1fr 2fr;
+  gap:4rem;
+  align-items:end;
+  margin-bottom:4rem;
+  padding-bottom:3rem;
+  border-bottom:1px solid var(--border);
+}
+.port-panel-title{
+  font-family:var(--df);
+  font-size:clamp(2.5rem,4vw,4rem);
+  font-weight:400;
+  line-height:1.1;
+  color:var(--ink);
+}
+.port-panel-title em{font-style:italic;color:var(--rose-deep)}
+.port-panel-desc{
+  font-size:.93rem;
+  line-height:1.9;
+  color:rgba(46,44,40,.6);
+}
+.port-count{
+  font-size:.65rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--rose);
+  margin-top:1rem;
+  display:block;
+}
+
+/* ─── MASONRY / GALLERY ─── */
+.masonry{columns:3;column-gap:3px;margin-bottom:3px}
+.masonry-2{columns:2}
+.masonry-4{columns:4}
+.m-item{
+  break-inside:avoid;
+  margin-bottom:3px;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  display:block;
+  border-radius:2px;
+  box-shadow:0 4px 12px rgba(0,0,0,.03);
+  transition:box-shadow .3s ease,transform .3s ease;
+}
+.m-item:hover{
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  transform:translateY(-2px);
+}
+.m-item img,.m-item video{
+  width:100%;
+  display:block;
+  transition:transform .7s cubic-bezier(.16,1,.3,1);
+}
+.m-item:hover img,.m-item:hover video{transform:scale(1.04)}
+.m-ph{
+  background:var(--paper2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2rem 1rem;
+}
+.m-ph-inner{text-align:center}
+.m-ph-icon{font-size:2rem;margin-bottom:.75rem;opacity:.25}
+.m-ph-label{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mist);line-height:1.6}
+.m-item-tall .m-ph{aspect-ratio:2/3}
+.m-item-square .m-ph{aspect-ratio:1}
+.m-item-wide .m-ph{aspect-ratio:16/9}
+.m-item-portrait .m-ph{aspect-ratio:3/4}
+.m-item-video .m-ph{aspect-ratio:16/9;background:var(--sage-light)}
+.m-item-video .m-ph-icon{color:var(--sage-deep);opacity:1}
+.m-item-pdf .m-ph{aspect-ratio:3/4;background:var(--rose-light)}
+.m-item-pdf .m-ph-label{color:var(--rose-deep)}
+.m-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(247,243,235,0);
+  transition:background .4s;
+  display:flex;
+  align-items:flex-end;
+}
+.m-overlay-text{
+  padding:1.5rem;
+  transform:translateY(8px);
+  opacity:0;
+  transition:all .4s;
+  font-size:.72rem;
+  letter-spacing:.08em;
+  color:var(--ink);
+}
+.m-item:hover .m-overlay{background:rgba(247,243,235,.8)}
+.m-item:hover .m-overlay-text{transform:none;opacity:1}
+
+/* PDF link strip */
+.pdf-strip{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  padding:1.5rem 2rem;
+  background:var(--rose-light);
+  border:1px solid var(--rose-light);
+  margin-bottom:3px;
+  text-decoration:none;
+  color:var(--rose-deep);
+  transition:background .3s;
+}
+.pdf-strip:hover{background:var(--paper2)}
+.pdf-strip-icon{font-size:1.5rem}
+.pdf-strip-text{flex:1}
+.pdf-strip-title{font-size:.9rem;font-weight:500;color:var(--rose-deep)}
+.pdf-strip-sub{font-size:.72rem;color:var(--mist)}
+.pdf-strip-arrow{font-size:1.1rem;color:var(--rose)}
+
+/* VIDEO indicator */
+.video-badge{
+  position:absolute;
+  top:.75rem;right:.75rem;
+  background:rgba(199,164,168,.9);
+  color:white;
+  font-size:.58rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:.3rem .6rem;
+  border-radius:2px;
+}
+
+/* ─── THESIS SECTION ─── */
+.thesis-sect{
+  background:var(--sage-light);
+  padding:9rem 0 0;
+  overflow:hidden;
+}
+.thesis-marquee-title{
+  white-space:nowrap;
+  overflow:hidden;
+  padding:0 3.5rem;
+  margin-bottom:6rem;
+}
+.thesis-big{
+  font-family:var(--df);
+  font-size:clamp(6rem,15vw,16rem);
+  font-weight:400;
+  font-style:italic;
+  color:rgba(46,44,40,.03);
+  white-space:nowrap;
+  user-select:none;
+  animation:marquee2 20s linear infinite;
+}
+@keyframes marquee2{from{transform:translateX(0)}to{transform:translateX(-30%)}}
+.thesis-inner{padding:0 3.5rem 9rem}
+.thesis-intro{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6rem;
+  align-items:center;
+  margin-bottom:6rem;
+}
+.thesis-left p{
+  font-size:.95rem;
+  line-height:2;
+  color:rgba(46,44,40,.55);
+  margin-bottom:1.5rem;
+}
+.thesis-left p.lead-t{
+  font-family:var(--df);
+  font-size:1.5rem;
+  line-height:1.65;
+  color:var(--ink);
+  font-style:italic;
+  margin-bottom:2rem;
+}
+.thesis-right{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:3px;
+}
+.thesis-phase-card{
+  padding:2rem 1.75rem;
+  border:1px solid rgba(46,44,40,.07);
+  background:var(--paper);
+  position:relative;
+  overflow:hidden;
+  transition:border-color .4s,background .4s;
+}
+.thesis-phase-card:hover{
+  border-color:rgba(168,183,167,.4);
+  background:rgba(168,183,167,.04);
+}
+.thesis-phase-card::before{
+  content:attr(data-n);
+  position:absolute;
+  bottom:1rem;right:1.25rem;
+  font-family:var(--df);
+  font-size:3.5rem;
+  color:rgba(46,44,40,.03);
+  line-height:1;
+}
+.thesis-phase-label{
+  font-size:.58rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--rose-deep);
+  margin-bottom:.75rem;
+}
+.thesis-phase-title{
+  font-family:var(--df);
+  font-size:1.1rem;
+  color:var(--ink);
+  font-style:italic;
+}
+
+.thesis-gallery-title{
+  font-size:.65rem;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  color:var(--sage-deep);
+  margin-bottom:2rem;
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+}
+.thesis-gallery-title::before{
+  content:'';
+  display:block;
+  width:28px;height:1px;
+  background:var(--sage);
+}
+
+/* ─── LIGHTBOX ─── */
+.lb{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(46,44,40,.96);
+  z-index:5000;
+  align-items:center;
+  justify-content:center;
+}
+.lb.open{display:flex}
+.lb-close{
+  position:absolute;
+  top:2rem;right:2rem;
+  background:rgba(247,243,235,.08);
+  border:1px solid rgba(247,243,235,.15);
+  color:var(--paper);
+  width:44px;height:44px;
+  border-radius:50%;
+  font-size:1.1rem;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:background .3s;
+  z-index:2;
+}
+.lb-close:hover{background:rgba(247,243,235,.16)}
+.lb-prev,.lb-next{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(247,243,235,.06);
+  border:1px solid rgba(247,243,235,.12);
+  color:var(--paper);
+  width:52px;height:52px;
+  border-radius:50%;
+  font-size:1.3rem;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:background .3s;
+  z-index:2;
+}
+.lb-prev{left:2rem}.lb-next{right:2rem}
+.lb-prev:hover,.lb-next:hover{background:rgba(247,243,235,.14)}
+.lb-content{
+  max-width:90vw;
+  max-height:88vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+.lb-content img,.lb-content video{
+  max-width:90vw;
+  max-height:85vh;
+  object-fit:contain;
+  display:block;
+}
+.lb-ph{
+  width:min(600px,80vw);
+  height:min(400px,55vh);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:1rem;
+  background:rgba(247,243,235,.04);
+  border:1px solid rgba(247,243,235,.08);
+}
+.lb-ph-label{
+  font-size:.8rem;
+  letter-spacing:.1em;
+  color:var(--paper);
+  text-align:center;
+  padding:0 2rem;
+}
+.lb-pdf{width:min(700px,90vw);height:min(500px,75vh)}
+.lb-pdf iframe{width:100%;height:100%;border:none}
+.lb-counter{
+  position:absolute;
+  bottom:2rem;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:.65rem;
+  letter-spacing:.15em;
+  color:var(--paper);
+}
+
+/* ─── CONTACT ─── */
+.contact-sect{
+  background:var(--paper2);
+  padding:9rem 3.5rem;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6rem;
+  align-items:center;
+}
+.contact-left h2{
+  font-family:var(--df);
+  font-size:clamp(3rem,5vw,6rem);
+  font-weight:400;
+  line-height:1.05;
+  color:var(--ink);
+  margin-bottom:2rem;
+}
+.contact-left h2 em{font-style:italic;color:var(--rose-deep)}
+.contact-left p{
+  font-size:.93rem;
+  line-height:1.85;
+  color:rgba(46,44,40,.6);
+  max-width:420px;
+  margin-bottom:3rem;
+}
+.contact-links{display:flex;flex-direction:column;gap:1.25rem}
+.c-link{
+  display:flex;
+  align-items:center;
+  gap:1.25rem;
+  text-decoration:none;
+  color:var(--ink);
+  font-size:.88rem;
+  padding:1.25rem 1.5rem;
+  border:1px solid var(--border);
+  background:var(--paper);
+  transition:all .3s;
+}
+.c-link:hover{
+  background:var(--sage-light);
+  border-color:var(--sage);
+  color:var(--ink);
+}
+.c-link-ic{font-size:1.1rem;width:1.5rem;text-align:center}
+.contact-right{
+  aspect-ratio:2/3;
+  background:var(--rose-light);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.7rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--rose-deep);
+}
+
+/* ─── FOOTER ─── */
+footer{
+  background:var(--paper);
+  border-top:1px solid var(--border);
+  padding:2.5rem 3.5rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.footer-logo{
+  font-family:var(--df);
+  font-size:1.15rem;
+  font-style:italic;
+  color:var(--ink);
+}
+.footer-copy{
+  font-size:.68rem;
+  letter-spacing:.1em;
+  color:var(--mist);
+}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  nav{padding:0 1.5rem}
+  .nav-links{display:none}
+  .nav-toggle{display:flex}
+  .hero-content{padding:0 1.5rem 5rem}
+  .hero-index{display:none}
+  .sect{padding:6rem 1.5rem}
+  .about-wrap{grid-template-columns:1fr;gap:3rem}
+  .about-photo-frame{position:static;display:none}
+  .skills-grid{grid-template-columns:1fr}
+  .skill-col{border-right:none;border-bottom:1px solid rgba(46,44,40,.1)}
+  .masonry{columns:2}
+  .masonry-4{columns:2}
+  .port-panel{padding:3rem 1.5rem 6rem}
+  .port-panel-header{grid-template-columns:1fr;gap:1.5rem}
+  .thesis-intro{grid-template-columns:1fr;gap:3rem}
+  .thesis-inner{padding:0 1.5rem 6rem}
+  .contact-sect{grid-template-columns:1fr;padding:6rem 1.5rem;gap:3rem}
+  .contact-right{display:none}
+  footer{flex-direction:column;gap:1rem;padding:2rem 1.5rem}
+  .lb-prev,.lb-next{width:40px;height:40px;font-size:1rem}
+  .lb-prev{left:.75rem}.lb-next{right:.75rem}
+}
+@media(max-width:600px){
+  .masonry{columns:1}
+  .masonry-2{columns:1}
+  .masonry-4{columns:2}
+  .hero-name{font-size:clamp(3.5rem,15vw,6rem)}
+  .skills-marquee-wrap{margin:4rem -1.5rem 0}
+}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div class="loader-name">
+    <span>Rameen</span>&nbsp;<span style="font-style:italic;color:var(--rose)">Razi</span>
+  </div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+</div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a class="nav-logo" href="#">Rameen Razi</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#thesis">Thesis</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Menu"><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Fashion Designer · Islamabad, Pakistan</p>
+    <h1 class="hero-name">
+      <span class="hero-name-line"><span>Rameen</span></span>
+      <span class="hero-name-line"><span>Razi</span></span>
+    </h1>
+    <div class="hero-bottom">
+      <p class="hero-tagline">Transforming stories into fashion through craftsmanship, textile innovation, and artistic expression.</p>
+      <div class="hero-scroll"><div class="hero-scroll-line"></div><span>Scroll</span></div>
+    </div>
+  </div>
+  <div class="hero-index">
+    <span class="hero-index-dot active" onclick="scrollTo(0,0)" title="Home"></span>
+    <span class="hero-index-dot" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})" title="About"></span>
+    <span class="hero-index-dot" onclick="document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})" title="Work"></span>
+    <span class="hero-index-dot" onclick="document.getElementById('thesis').scrollIntoView({behavior:'smooth'})" title="Thesis"></span>
+    <span class="hero-index-dot" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" title="Contact"></span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="sect sect-light" id="about">
+  <p class="sect-label reveal">About Me</p>
+  <h2 class="sect-title sect-title-light reveal reveal-delay-1">A Designer Driven<br>by <em>Storytelling</em></h2>
+  <div class="about-wrap">
+    <div class="about-photo-frame reveal">
+      <div class="about-photo"><span class="about-photo-label">Profile Photo</span></div>
+    </div>
+    <div class="about-text">
+      <p class="lead reveal">"Fashion is more than clothing — it is a medium for expression, identity, and storytelling."</p>
+      <p class="reveal reveal-delay-1">I am a Fashion Designer driven by a passion for storytelling, craftsmanship, and creative exploration. My work transforms concepts into meaningful fashion narratives through innovative textile techniques, material experimentation, and thoughtful design development.</p>
+      <p class="reveal reveal-delay-2">Throughout my design journey I have explored handcrafted processes including flower hammering, fabric manipulation, burnout techniques, embellishment, and surface development — allowing materials to communicate stories through texture, form, and detail.</p>
+      <p class="reveal reveal-delay-3">Nature, emotions, memories, and artistic expression are at the heart of my creative process. Over four years of study and making, I have developed a design language that balances artistic expression with technical precision and purposeful craft.</p>
+      <div class="achiev-grid">
+        <div class="achiev-item reveal">Awarded Head of Art &amp; Design, recognising leadership and creative contribution</div>
+        <div class="achiev-item reveal reveal-delay-1">1st &amp; 2nd position medals throughout school for academic excellence</div>
+        <div class="achiev-item reveal reveal-delay-2">Recognised as a High Academic Achiever, High GPA Achievement List</div>
+        <div class="achiev-item reveal reveal-delay-3">Multiple certificates across art, design, academic &amp; extracurricular activities</div>
+        <div class="achiev-item reveal reveal-delay-4">O/A Levels — Roots International School &amp; Colleges, Pakistan</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="sect sect-dark" id="skills">
+  <p class="sect-label reveal">Expertise</p>
+  <h2 class="sect-title reveal reveal-delay-1">Skills &amp; <em>Craft</em></h2>
+  <div class="skills-marquee-wrap">
+    <div class="skills-marquee">
+      <span class="marquee-item hi">Fashion Design</span><span class="marquee-item">·</span>
+      <span class="marquee-item">Textile Experimentation</span><span class="marquee-item">·</span>
+      <span class="marquee-item hi">Pattern Making</span><span class="marquee-item">·</span>
+      <span class="marquee-item">Surface Development</span><span class="marquee-item">·</span>
+      <span class="marquee-item hi">Fabric Manipulation</span><span class="marquee-item">·</span>
+      <span class="marquee-item">Garment Construction</span><span class="marquee-item">·</span>
+      <span class="marquee-item hi">Concept Development</span><span class="marquee-item">·</span>
+      <span class="marquee-item">Visual Storytelling</span><span class="marquee-item">·</span>
+      <span class="marquee-item hi">Adda Work</span><span class="marquee-item">·</span>
+      <span class="marquee-item">Flower Hammering</span><span class="marquee-item">·</span>
+      <span class="marquee-item hi">Adobe Suite</span><span class="marquee-item">·</span>
+      <span class="marquee-item">Embroidery</span><span class="marquee-item">·</span>
+      <span class="marquee-item hi">Fashion Design</span><span class="marquee-item">·</span>
+      <span class="marquee-item">Textile Experimentation</span><span class="marquee-item">·</span>
+      <span class="marquee-item hi">Pattern Making</span><span class="marquee-item">·</span>
+      <span class="marquee-item">Surface Development</span><span class="marquee-item">·</span>
+      <span class="marquee-item hi">Fabric Manipulation</span><span class="marquee-item">·</span>
+      <span class="marquee-item">Garment Construction</span><span class="marquee-item">·</span>
+    </div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-col reveal">
+      <span class="skill-col-num">01</span>
+      <p class="skill-col-sub">Craft &amp; Making</p>
+      <h3 class="skill-col-title">Textile &amp; Construction</h3>
+      <div>
+        <span class="skill-tag">Fabric Manipulation</span><span class="skill-tag">Garment Construction</span><span class="skill-tag">Pattern Making</span><span class="skill-tag">Surface Development</span><span class="skill-tag">Flower Hammering</span><span class="skill-tag">Burnout Techniques</span><span class="skill-tag">Embellishment</span><span class="skill-tag">Embroidery</span><span class="skill-tag">Draping</span><span class="skill-tag">Adda Work</span>
+      </div>
+    </div>
+    <div class="skill-col reveal reveal-delay-1">
+      <span class="skill-col-num">02</span>
+      <p class="skill-col-sub">Concept &amp; Research</p>
+      <h3 class="skill-col-title">Design Thinking</h3>
+      <div>
+        <span class="skill-tag">Concept Development</span><span class="skill-tag">Fashion Illustration</span><span class="skill-tag">Trend Forecasting</span><span class="skill-tag">Mood Boards</span><span class="skill-tag">Visual Storytelling</span><span class="skill-tag">Collection Development</span><span class="skill-tag">Creative Direction</span><span class="skill-tag">Research-Based Design</span>
+      </div>
+    </div>
+    <div class="skill-col reveal reveal-delay-2">
+      <span class="skill-col-num">03</span>
+      <p class="skill-col-sub">Digital &amp; Presentation</p>
+      <h3 class="skill-col-title">Software &amp; Visual</h3>
+      <div>
+        <span class="skill-tag">Adobe Photoshop</span><span class="skill-tag">Adobe Illustrator</span><span class="skill-tag">Adobe InDesign</span><span class="skill-tag">Canva</span><span class="skill-tag">PowerPoint</span><span class="skill-tag">Technical Drawing</span><span class="skill-tag">Portfolio Design</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<div id="portfolio">
+  <div class="port-nav-wrap" id="port-nav-wrap">
+    <div class="port-nav" id="port-nav">
+      <button class="port-btn active" data-panel="p-moodboards">Mood Boards</button>
+      <button class="port-btn" data-panel="p-patterns">Pattern Making</button>
+      <button class="port-btn" data-panel="p-adda">Adda Work</button>
+      <button class="port-btn" data-panel="p-bridal">Bridal Wear</button>
+      <button class="port-btn" data-panel="p-denim">Denim</button>
+      <button class="port-btn" data-panel="p-draping">Draping</button>
+      <button class="port-btn" data-panel="p-craft">Reviving Craft</button>
+      <button class="port-btn" data-panel="p-stitching">Stitching</button>
+      <button class="port-btn" data-panel="p-internship">Internship</button>
+      <button class="port-btn" data-panel="p-photography">Photography</button>
+    </div>
+  </div>
+
+  <!-- MOOD BOARDS — 12 images -->
+  <div class="port-panel active" id="p-moodboards">
+    <div class="port-panel-header reveal">
+      <div>
+        <p class="sect-label">Portfolio</p>
+        <h2 class="port-panel-title">Mood Boards &amp;<br><em>Concept Development</em></h2>
+        <span class="port-count">12 boards</span>
+      </div>
+      <p class="port-panel-desc">Visual research boards, concept development, and creative thinking that underpin each design collection. These boards map the journey from initial inspiration — nature, memory, emotion — through to a resolved design direction.</p>
+    </div>
+    <div class="masonry masonry-3">
+      <div class="m-item m-item-tall" onclick="openLB('moodboards',0)"><div class="m-ph m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🎨</div><p class="m-ph-label">Mood Board 01<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Mood Board 01</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('moodboards',1)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🎨</div><p class="m-ph-label">Mood Board 02<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Mood Board 02</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('moodboards',2)"><div class="m-ph m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🎨</div><p class="m-ph-label">Mood Board 03<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Mood Board 03</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('moodboards',3)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🎨</div><p class="m-ph-label">Mood Board 04<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Mood Board 04</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('moodboards',4)"><div class="m-ph m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🎨</div><p class="m-ph-label">Concept Board 01<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Concept Board 01</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('moodboards',5)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🎨</div><p class="m-ph-label">Research Board 01<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Research Board 01</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('moodboards',6)"><div class="m-ph m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🎨</div><p class="m-ph-label">Mood Board 05<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Mood Board 05</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('moodboards',7)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🎨</div><p class="m-ph-label">Trend Board 01<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Trend Board 01</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('moodboards',8)"><div class="m-ph m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🎨</div><p class="m-ph-label">Mood Board 06<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Mood Board 06</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('moodboards',9)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🎨</div><p class="m-ph-label">Concept Board 02<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Concept Board 02</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('moodboards',10)"><div class="m-ph m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🎨</div><p class="m-ph-label">Research Board 02<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Research Board 02</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('moodboards',11)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🎨</div><p class="m-ph-label">Mood Board 07<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Mood Board 07</span></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN MAKING — 1 PDF -->
+  <div class="port-panel" id="p-patterns">
+    <div class="port-panel-header reveal">
+      <div>
+        <p class="sect-label">Portfolio</p>
+        <h2 class="port-panel-title">Pattern<br><em>Making</em></h2>
+        <span class="port-count">1 document</span>
+      </div>
+      <p class="port-panel-desc">Technical foundations brought to life through precision drafting, grading, and construction. Each pattern reflects a considered relationship between form, fit, and function — the skeleton beneath every garment.</p>
+    </div>
+    <a href="#" class="pdf-strip reveal" onclick="openPDF('Pattern Making Portfolio');return false">
+      <span class="pdf-strip-icon">📄</span>
+      <div class="pdf-strip-text">
+        <p class="pdf-strip-title">Pattern Making — Full Portfolio</p>
+        <p class="pdf-strip-sub">PDF Document · Upload your file to enable preview</p>
+      </div>
+      <span class="pdf-strip-arrow">↗</span>
+    </a>
+    <div class="masonry masonry-2" style="margin-top:3px">
+      <div class="m-item m-item-tall"><div class="m-ph m-item-pdf"><div class="m-ph-inner"><div class="m-ph-icon">📐</div><p class="m-ph-label">Pattern document preview<br>Add PDF thumbnail</p></div></div></div>
+      <div class="m-item m-item-tall"><div class="m-ph m-item-pdf"><div class="m-ph-inner"><div class="m-ph-icon">📐</div><p class="m-ph-label">Construction details<br>Add PDF thumbnail</p></div></div></div>
+    </div>
+  </div>
+
+  <!-- ADDA WORK — 3 images -->
+  <div class="port-panel" id="p-adda">
+    <div class="port-panel-header reveal">
+      <div>
+        <p class="sect-label">Portfolio</p>
+        <h2 class="port-panel-title">Adda<br><em>Work</em></h2>
+        <span class="port-count">3 images</span>
+      </div>
+      <p class="port-panel-desc">Celebrating the heritage and artistry of traditional Adda embroidery — where intricate needlework, fine threads, and patient craftsmanship converge to create textile surfaces of enduring beauty.</p>
+    </div>
+    <div class="masonry masonry-3">
+      <div class="m-item m-item-tall" onclick="openLB('adda',0)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪡</div><p class="m-ph-label">Adda Work 01<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Adda Work 01</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('adda',1)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪡</div><p class="m-ph-label">Adda Work 02<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Adda Work 02</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('adda',2)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪡</div><p class="m-ph-label">Adda Work 03<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Adda Work 03</span></div></div>
+    </div>
+  </div>
+
+  <!-- BRIDAL WEAR — 1 PDF + 12 images -->
+  <div class="port-panel" id="p-bridal">
+    <div class="port-panel-header reveal">
+      <div>
+        <p class="sect-label">Portfolio</p>
+        <h2 class="port-panel-title">Bridal<br><em>Wear</em></h2>
+        <span class="port-count">12 images · 1 document</span>
+      </div>
+      <p class="port-panel-desc">South Asian bridal fashion where rich embellishment, handcrafted detailing, and traditional craft techniques create garments of enduring beauty and deep cultural resonance.</p>
+    </div>
+    <a href="#" class="pdf-strip reveal" onclick="openPDF('Bridal Wear Portfolio');return false">
+      <span class="pdf-strip-icon">📄</span>
+      <div class="pdf-strip-text">
+        <p class="pdf-strip-title">Bridal Wear — Design Portfolio</p>
+        <p class="pdf-strip-sub">PDF Document · Upload your file to enable preview</p>
+      </div>
+      <span class="pdf-strip-arrow">↗</span>
+    </a>
+    <div class="masonry masonry-3" style="margin-top:3px">
+      <div class="m-item m-item-tall" onclick="openLB('bridal',0)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👗</div><p class="m-ph-label">Bridal 01<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Bridal Piece 01</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('bridal',1)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👗</div><p class="m-ph-label">Bridal 02<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Bridal Piece 02</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('bridal',2)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👗</div><p class="m-ph-label">Bridal 03<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Bridal Piece 03</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('bridal',3)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👗</div><p class="m-ph-label">Bridal 04<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Bridal Detail 04</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('bridal',4)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👗</div><p class="m-ph-label">Bridal 05<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Embellishment 05</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('bridal',5)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👗</div><p class="m-ph-label">Bridal 06<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Bridal Piece 06</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('bridal',6)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👗</div><p class="m-ph-label">Bridal 07<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Bridal Piece 07</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('bridal',7)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👗</div><p class="m-ph-label">Bridal 08<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Detail 08</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('bridal',8)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👗</div><p class="m-ph-label">Bridal 09<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Bridal Piece 09</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('bridal',9)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👗</div><p class="m-ph-label">Bridal 10<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Bridal Piece 10</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('bridal',10)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👗</div><p class="m-ph-label">Bridal 11<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Bridal Piece 11</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('bridal',11)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👗</div><p class="m-ph-label">Bridal 12<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Bridal Piece 12</span></div></div>
+    </div>
+  </div>
+
+  <!-- DENIM — 2 videos + 12 images -->
+  <div class="port-panel" id="p-denim">
+    <div class="port-panel-header reveal">
+      <div>
+        <p class="sect-label">Portfolio</p>
+        <h2 class="port-panel-title">Denim<br><em>Work</em></h2>
+        <span class="port-count">12 images · 2 videos</span>
+      </div>
+      <p class="port-panel-desc">Denim as a canvas — manipulating, distressing, and embellishing this enduring material to create fashion that bridges the vernacular and the elevated, the worn and the crafted.</p>
+    </div>
+    <div class="masonry masonry-3">
+      <div class="m-item m-item-video" onclick="openLB('denim',0)"><div class="m-ph m-item-video"><div class="m-ph-inner"><div class="m-ph-icon" style="color:var(--sage-deep);opacity:1;font-size:2.5rem">▶</div><p class="m-ph-label">Denim Process Video 01<br>Upload .mp4 file</p></div></div><div class="video-badge">Video</div><div class="m-overlay"><span class="m-overlay-text">Process Video 01</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('denim',1)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👖</div><p class="m-ph-label">Denim 01<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Denim Piece 01</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('denim',2)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👖</div><p class="m-ph-label">Denim 02<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Denim Piece 02</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('denim',3)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👖</div><p class="m-ph-label">Denim 03<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Denim Piece 03</span></div></div>
+      <div class="m-item m-item-video" onclick="openLB('denim',4)"><div class="m-ph m-item-video"><div class="m-ph-inner"><div class="m-ph-icon" style="color:var(--sage-deep);opacity:1;font-size:2.5rem">▶</div><p class="m-ph-label">Denim Process Video 02<br>Upload .mp4 file</p></div></div><div class="video-badge">Video</div><div class="m-overlay"><span class="m-overlay-text">Process Video 02</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('denim',5)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👖</div><p class="m-ph-label">Denim 04<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Denim Piece 04</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('denim',6)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👖</div><p class="m-ph-label">Denim 05<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Detail 05</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('denim',7)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👖</div><p class="m-ph-label">Denim 06<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Denim Piece 06</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('denim',8)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👖</div><p class="m-ph-label">Denim 07<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Denim Piece 07</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('denim',9)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👖</div><p class="m-ph-label">Denim 08<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Detail 08</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('denim',10)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👖</div><p class="m-ph-label">Denim 09<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Denim Piece 09</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('denim',11)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👖</div><p class="m-ph-label">Denim 10<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Denim Piece 10</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('denim',12)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👖</div><p class="m-ph-label">Denim 11<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Denim Piece 11</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('denim',13)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">👖</div><p class="m-ph-label">Denim 12<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Denim Piece 12</span></div></div>
+    </div>
+  </div>
+
+  <!-- DRAPING — 15 images -->
+  <div class="port-panel" id="p-draping">
+    <div class="port-panel-header reveal">
+      <div>
+        <p class="sect-label">Portfolio</p>
+        <h2 class="port-panel-title">Draping</h2>
+        <span class="port-count">15 images</span>
+      </div>
+      <p class="port-panel-desc">Exploring three-dimensional form through fabric on the stand. Draping allows material to inform silhouette — a direct, intuitive conversation between designer and cloth that reveals possibilities no flat pattern can predict.</p>
+    </div>
+    <div class="masonry masonry-4">
+      <div class="m-item m-item-tall" onclick="openLB('draping',0)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label">Draping 01</p></div></div><div class="m-overlay"><span class="m-overlay-text">Draping Study 01</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('draping',1)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label">Draping 02</p></div></div><div class="m-overlay"><span class="m-overlay-text">Draping Study 02</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('draping',2)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label">Draping 03</p></div></div><div class="m-overlay"><span class="m-overlay-text">Draping Study 03</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('draping',3)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label">Draping 04</p></div></div><div class="m-overlay"><span class="m-overlay-text">Draping Study 04</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('draping',4)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label">Draping 05</p></div></div><div class="m-overlay"><span class="m-overlay-text">Draping Study 05</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('draping',5)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label">Draping 06</p></div></div><div class="m-overlay"><span class="m-overlay-text">Draping Study 06</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('draping',6)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label">Draping 07</p></div></div><div class="m-overlay"><span class="m-overlay-text">Draping Study 07</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('draping',7)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label">Draping 08</p></div></div><div class="m-overlay"><span class="m-overlay-text">Draping Study 08</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('draping',8)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label">Draping 09</p></div></div><div class="m-overlay"><span class="m-overlay-text">Draping Study 09</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('draping',9)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label">Draping 10</p></div></div><div class="m-overlay"><span class="m-overlay-text">Draping Study 10</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('draping',10)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label">Draping 11</p></div></div><div class="m-overlay"><span class="m-overlay-text">Draping Study 11</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('draping',11)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label">Draping 12</p></div></div><div class="m-overlay"><span class="m-overlay-text">Draping Study 12</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('draping',12)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label">Draping 13</p></div></div><div class="m-overlay"><span class="m-overlay-text">Draping Study 13</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('draping',13)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label">Draping 14</p></div></div><div class="m-overlay"><span class="m-overlay-text">Draping Study 14</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('draping',14)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label">Draping 15</p></div></div><div class="m-overlay"><span class="m-overlay-text">Draping Study 15</span></div></div>
+    </div>
+  </div>
+
+  <!-- REVIVING CRAFT — 3 videos + 10 images -->
+  <div class="port-panel" id="p-craft">
+    <div class="port-panel-header reveal">
+      <div>
+        <p class="sect-label">Portfolio</p>
+        <h2 class="port-panel-title">Reviving<br><em>Craft</em></h2>
+        <span class="port-count">10 images · 3 videos</span>
+      </div>
+      <p class="port-panel-desc">A research-driven project dedicated to the preservation and reinterpretation of traditional craft techniques. Studying endangered textile arts and reimagining them within a contemporary design context.</p>
+    </div>
+    <div class="masonry masonry-3">
+      <div class="m-item m-item-video" onclick="openLB('craft',0)"><div class="m-ph m-item-video"><div class="m-ph-inner"><div class="m-ph-icon" style="color:var(--sage-deep);opacity:1;font-size:2.5rem">▶</div><p class="m-ph-label">Craft Process Video 01<br>Upload .mp4 file</p></div></div><div class="video-badge">Video</div><div class="m-overlay"><span class="m-overlay-text">Craft Process 01</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('craft',1)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🧵</div><p class="m-ph-label">Craft 01<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Craft Study 01</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('craft',2)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🧵</div><p class="m-ph-label">Craft 02<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Craft Study 02</span></div></div>
+      <div class="m-item m-item-video" onclick="openLB('craft',3)"><div class="m-ph m-item-video"><div class="m-ph-inner"><div class="m-ph-icon" style="color:var(--sage-deep);opacity:1;font-size:2.5rem">▶</div><p class="m-ph-label">Craft Process Video 02<br>Upload .mp4 file</p></div></div><div class="video-badge">Video</div><div class="m-overlay"><span class="m-overlay-text">Craft Process 02</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('craft',4)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🧵</div><p class="m-ph-label">Craft 03<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Craft Study 03</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('craft',5)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🧵</div><p class="m-ph-label">Craft 04<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Craft Study 04</span></div></div>
+      <div class="m-item m-item-video" onclick="openLB('craft',6)"><div class="m-ph m-item-video"><div class="m-ph-inner"><div class="m-ph-icon" style="color:var(--sage-deep);opacity:1;font-size:2.5rem">▶</div><p class="m-ph-label">Craft Process Video 03<br>Upload .mp4 file</p></div></div><div class="video-badge">Video</div><div class="m-overlay"><span class="m-overlay-text">Craft Process 03</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('craft',7)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🧵</div><p class="m-ph-label">Craft 05<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Craft Study 05</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('craft',8)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🧵</div><p class="m-ph-label">Craft 06<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Craft Study 06</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('craft',9)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🧵</div><p class="m-ph-label">Craft 07<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Craft Study 07</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('craft',10)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🧵</div><p class="m-ph-label">Craft 08<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Craft Study 08</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('craft',11)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🧵</div><p class="m-ph-label">Craft 09<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Craft Study 09</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('craft',12)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🧵</div><p class="m-ph-label">Craft 10<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Craft Study 10</span></div></div>
+    </div>
+  </div>
+
+  <!-- STITCHING — 10 images -->
+  <div class="port-panel" id="p-stitching">
+    <div class="port-panel-header reveal">
+      <div>
+        <p class="sect-label">Portfolio</p>
+        <h2 class="port-panel-title">Stitching</h2>
+        <span class="port-count">10 images</span>
+      </div>
+      <p class="port-panel-desc">The art of construction made visible — where seams, finishes, and handwork demonstrate both technical skill and an eye for detail that elevates a garment from assembled to crafted.</p>
+    </div>
+    <div class="masonry masonry-3">
+      <div class="m-item m-item-tall" onclick="openLB('stitching',0)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪡</div><p class="m-ph-label">Stitching 01<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Stitching 01</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('stitching',1)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪡</div><p class="m-ph-label">Stitching 02<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Stitching 02</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('stitching',2)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪡</div><p class="m-ph-label">Stitching 03<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Stitching 03</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('stitching',3)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪡</div><p class="m-ph-label">Stitching 04<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Stitching 04</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('stitching',4)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪡</div><p class="m-ph-label">Stitching 05<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Stitching 05</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('stitching',5)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪡</div><p class="m-ph-label">Stitching 06<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Stitching 06</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('stitching',6)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪡</div><p class="m-ph-label">Stitching 07<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Stitching 07</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('stitching',7)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪡</div><p class="m-ph-label">Stitching 08<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Stitching 08</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('stitching',8)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪡</div><p class="m-ph-label">Stitching 09<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Stitching 09</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('stitching',9)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">🪡</div><p class="m-ph-label">Stitching 10<br>Add Image</p></div></div><div class="m-overlay"><span class="m-overlay-text">Stitching 10</span></div></div>
+    </div>
+  </div>
+
+  <!-- INTERNSHIP — 1 PDF -->
+  <div class="port-panel" id="p-internship">
+    <div class="port-panel-header reveal">
+      <div>
+        <p class="sect-label">Portfolio</p>
+        <h2 class="port-panel-title">Internship<br><em>Experience</em></h2>
+        <span class="port-count">1 document</span>
+      </div>
+      <p class="port-panel-desc">Industry experience that shaped my understanding of professional design practice — from studio workflow and client communication to production processes and quality standards in a real-world fashion environment.</p>
+    </div>
+    <a href="#" class="pdf-strip reveal" onclick="openPDF('Internship Portfolio');return false">
+      <span class="pdf-strip-icon">📄</span>
+      <div class="pdf-strip-text">
+        <p class="pdf-strip-title">Internship — Portfolio Documentation</p>
+        <p class="pdf-strip-sub">PDF Document · Upload your file to enable full preview</p>
+      </div>
+      <span class="pdf-strip-arrow">↗</span>
+    </a>
+    <div class="masonry masonry-2" style="margin-top:3px">
+      <div class="m-item m-item-tall"><div class="m-ph m-item-pdf"><div class="m-ph-inner"><div class="m-ph-icon">💼</div><p class="m-ph-label">Internship document<br>Add preview image</p></div></div></div>
+      <div class="m-item m-item-tall"><div class="m-ph m-item-pdf"><div class="m-ph-inner"><div class="m-ph-icon">💼</div><p class="m-ph-label">Industry work<br>Add preview image</p></div></div></div>
+    </div>
+  </div>
+
+  <!-- PHOTOGRAPHY — 20 images -->
+  <div class="port-panel" id="p-photography">
+    <div class="port-panel-header reveal">
+      <div>
+        <p class="sect-label">Portfolio</p>
+        <h2 class="port-panel-title">Photography</h2>
+        <span class="port-count">20 images</span>
+      </div>
+      <p class="port-panel-desc">Visual storytelling through the lens. Fashion photography that communicates garment, mood, and narrative in a single frame — an extension of design thinking into the editorial and communicative realm.</p>
+    </div>
+    <div class="masonry masonry-4">
+      <div class="m-item m-item-tall" onclick="openLB('photography',0)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 01</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 01</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('photography',1)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 02</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 02</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('photography',2)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 03</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 03</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('photography',3)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 04</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 04</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('photography',4)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 05</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 05</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('photography',5)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 06</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 06</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('photography',6)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 07</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 07</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('photography',7)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 08</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 08</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('photography',8)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 09</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 09</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('photography',9)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 10</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 10</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('photography',10)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 11</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 11</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('photography',11)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 12</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 12</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('photography',12)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 13</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 13</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('photography',13)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 14</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 14</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('photography',14)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 15</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 15</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('photography',15)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 16</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 16</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('photography',16)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 17</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 17</span></div></div>
+      <div class="m-item m-item-square" onclick="openLB('photography',17)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 18</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 18</span></div></div>
+      <div class="m-item m-item-tall" onclick="openLB('photography',18)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 19</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 19</span></div></div>
+      <div class="m-item m-item-portrait" onclick="openLB('photography',19)"><div class="m-ph"><div class="m-ph-inner"><div class="m-ph-icon">📷</div><p class="m-ph-label">Photo 20</p></div></div><div class="m-overlay"><span class="m-overlay-text">Photo 20</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- THESIS -->
+<section class="thesis-sect" id="thesis">
+  <div style="overflow:hidden;padding:0 3.5rem 5rem">
+    <p class="sect-label reveal" style="color:var(--rose-deep)">Final Year Project</p>
+    <h2 class="sect-title reveal reveal-delay-1">Thesis <em>Collection</em></h2>
+  </div>
+  <div style="font-family:var(--df);font-size:clamp(6rem,14vw,15rem);font-weight:400;font-style:italic;color:rgba(46,44,40,.03);white-space:nowrap;overflow:hidden;line-height:1;user-select:none;margin-bottom:0;animation:marquee2 20s linear infinite">
+    Thesis Collection · Four Years of Craft · Thesis Collection · Four Years of Craft ·
+  </div>
+  <div class="thesis-inner">
+    <div class="thesis-intro">
+      <div class="thesis-left">
+        <p class="lead-t">"A culmination of four years — where concept, craft, and creativity converge in a cohesive fashion narrative."</p>
+        <p>The thesis project weaves together every skill developed across the programme: textile experimentation, concept-driven design, pattern making, draping, and construction — unified into a deeply considered collection.</p>
+        <p>Rooted in personal narrative and artistic inspiration, each piece is both a garment and a statement. The work demonstrates not only technical mastery but a clear, evolved design voice developed over four intensive years.</p>
+      </div>
+      <div class="thesis-right">
+        <div class="thesis-phase-card" data-n="I"><p class="thesis-phase-label">Phase 01</p><h4 class="thesis-phase-title">Concept &amp; Research</h4></div>
+        <div class="thesis-phase-card" data-n="II"><p class="thesis-phase-label">Phase 02</p><h4 class="thesis-phase-title">Sketch Development</h4></div>
+        <div class="thesis-phase-card" data-n="III"><p class="thesis-phase-label">Phase 03</p><h4 class="thesis-phase-title">Textile Development</h4></div>
+        <div class="thesis-phase-card" data-n="IV"><p class="thesis-phase-label">Phase 04</p><h4 class="thesis-phase-title">Draping &amp; Progress</h4></div>
+        <div class="thesis-phase-card" data-n="V"><p class="thesis-phase-label">Phase 05</p><h4 class="thesis-phase-title">Garment Construction</h4></div>
+        <div class="thesis-phase-card" data-n="VI"><p class="thesis-phase-label">Phase 06</p><h4 class="thesis-phase-title">Final Collection</h4></div>
+      </div>
+    </div>
+
+    <!-- Thesis sub-sections -->
+    <div style="margin-top:5rem">
+      <p class="thesis-gallery-title">Thesis — Final Garments <span style="color:var(--mist);font-size:.6rem;letter-spacing:.1em">(10 images)</span></p>
+      <div class="masonry masonry-4" style="column-gap:3px">
+        <div class="m-item m-item-tall" onclick="openLB('thesis',0)"><div class="m-ph" style="background:rgba(199,164,168,.08)"><div class="m-ph-inner"><div class="m-ph-icon">✦</div><p class="m-ph-label" style="color:var(--rose-deep)">Thesis 01</p></div></div><div class="m-overlay"><span class="m-overlay-text">Final Garment 01</span></div></div>
+        <div class="m-item m-item-portrait" onclick="openLB('thesis',1)"><div class="m-ph" style="background:rgba(199,164,168,.08)"><div class="m-ph-inner"><div class="m-ph-icon">✦</div><p class="m-ph-label" style="color:var(--rose-deep)">Thesis 02</p></div></div><div class="m-overlay"><span class="m-overlay-text">Final Garment 02</span></div></div>
+        <div class="m-item m-item-tall" onclick="openLB('thesis',2)"><div class="m-ph" style="background:rgba(199,164,168,.08)"><div class="m-ph-inner"><div class="m-ph-icon">✦</div><p class="m-ph-label" style="color:var(--rose-deep)">Thesis 03</p></div></div><div class="m-overlay"><span class="m-overlay-text">Final Garment 03</span></div></div>
+        <div class="m-item m-item-portrait" onclick="openLB('thesis',3)"><div class="m-ph" style="background:rgba(199,164,168,.08)"><div class="m-ph-inner"><div class="m-ph-icon">✦</div><p class="m-ph-label" style="color:var(--rose-deep)">Thesis 04</p></div></div><div class="m-overlay"><span class="m-overlay-text">Final Garment 04</span></div></div>
+        <div class="m-item m-item-square" onclick="openLB('thesis',4)"><div class="m-ph" style="background:rgba(199,164,168,.08)"><div class="m-ph-inner"><div class="m-ph-icon">✦</div><p class="m-ph-label" style="color:var(--rose-deep)">Thesis 05</p></div></div><div class="m-overlay"><span class="m-overlay-text">Final Garment 05</span></div></div>
+        <div class="m-item m-item-tall" onclick="openLB('thesis',5)"><div class="m-ph" style="background:rgba(199,164,168,.08)"><div class="m-ph-inner"><div class="m-ph-icon">✦</div><p class="m-ph-label" style="color:var(--rose-deep)">Thesis 06</p></div></div><div class="m-overlay"><span class="m-overlay-text">Final Garment 06</span></div></div>
+        <div class="m-item m-item-portrait" onclick="openLB('thesis',6)"><div class="m-ph" style="background:rgba(199,164,168,.08)"><div class="m-ph-inner"><div class="m-ph-icon">✦</div><p class="m-ph-label" style="color:var(--rose-deep)">Thesis 07</p></div></div><div class="m-overlay"><span class="m-overlay-text">Final Garment 07</span></div></div>
+        <div class="m-item m-item-tall" onclick="openLB('thesis',7)"><div class="m-ph" style="background:rgba(199,164,168,.08)"><div class="m-ph-inner"><div class="m-ph-icon">✦</div><p class="m-ph-label" style="color:var(--rose-deep)">Thesis 08</p></div></div><div class="m-overlay"><span class="m-overlay-text">Final Garment 08</span></div></div>
+        <div class="m-item m-item-portrait" onclick="openLB('thesis',8)"><div class="m-ph" style="background:rgba(199,164,168,.08)"><div class="m-ph-inner"><div class="m-ph-icon">✦</div><p class="m-ph-label" style="color:var(--rose-deep)">Thesis 09</p></div></div><div class="m-overlay"><span class="m-overlay-text">Final Garment 09</span></div></div>
+        <div class="m-item m-item-square" onclick="openLB('thesis',9)"><div class="m-ph" style="background:rgba(199,164,168,.08)"><div class="m-ph-inner"><div class="m-ph-icon">✦</div><p class="m-ph-label" style="color:var(--rose-deep)">Thesis 10</p></div></div><div class="m-overlay"><span class="m-overlay-text">Final Garment 10</span></div></div>
+      </div>
+
+      <p class="thesis-gallery-title" style="margin-top:4rem">Progress — Draping <span style="color:var(--mist);font-size:.6rem;letter-spacing:.1em">(15 images)</span></p>
+      <div class="masonry masonry-4" style="column-gap:3px">
+        <div class="m-item m-item-portrait" onclick="openLB('thesis-draping',0)"><div class="m-ph" style="background:rgba(168,183,167,.05)"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label" style="color:var(--sage-deep)">Draping 01</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Draping 01</span></div></div>
+        <div class="m-item m-item-tall" onclick="openLB('thesis-draping',1)"><div class="m-ph" style="background:rgba(168,183,167,.05)"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label" style="color:var(--sage-deep)">Draping 02</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Draping 02</span></div></div>
+        <div class="m-item m-item-portrait" onclick="openLB('thesis-draping',2)"><div class="m-ph" style="background:rgba(168,183,167,.05)"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label" style="color:var(--sage-deep)">Draping 03</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Draping 03</span></div></div>
+        <div class="m-item m-item-square" onclick="openLB('thesis-draping',3)"><div class="m-ph" style="background:rgba(168,183,167,.05)"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label" style="color:var(--sage-deep)">Draping 04</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Draping 04</span></div></div>
+        <div class="m-item m-item-tall" onclick="openLB('thesis-draping',4)"><div class="m-ph" style="background:rgba(168,183,167,.05)"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label" style="color:var(--sage-deep)">Draping 05</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Draping 05</span></div></div>
+        <div class="m-item m-item-portrait" onclick="openLB('thesis-draping',5)"><div class="m-ph" style="background:rgba(168,183,167,.05)"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label" style="color:var(--sage-deep)">Draping 06</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Draping 06</span></div></div>
+        <div class="m-item m-item-tall" onclick="openLB('thesis-draping',6)"><div class="m-ph" style="background:rgba(168,183,167,.05)"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label" style="color:var(--sage-deep)">Draping 07</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Draping 07</span></div></div>
+        <div class="m-item m-item-portrait" onclick="openLB('thesis-draping',7)"><div class="m-ph" style="background:rgba(168,183,167,.05)"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label" style="color:var(--sage-deep)">Draping 08</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Draping 08</span></div></div>
+        <div class="m-item m-item-square" onclick="openLB('thesis-draping',8)"><div class="m-ph" style="background:rgba(168,183,167,.05)"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label" style="color:var(--sage-deep)">Draping 09</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Draping 09</span></div></div>
+        <div class="m-item m-item-tall" onclick="openLB('thesis-draping',9)"><div class="m-ph" style="background:rgba(168,183,167,.05)"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label" style="color:var(--sage-deep)">Draping 10</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Draping 10</span></div></div>
+        <div class="m-item m-item-portrait" onclick="openLB('thesis-draping',10)"><div class="m-ph" style="background:rgba(168,183,167,.05)"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label" style="color:var(--sage-deep)">Draping 11</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Draping 11</span></div></div>
+        <div class="m-item m-item-tall" onclick="openLB('thesis-draping',11)"><div class="m-ph" style="background:rgba(168,183,167,.05)"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label" style="color:var(--sage-deep)">Draping 12</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Draping 12</span></div></div>
+        <div class="m-item m-item-portrait" onclick="openLB('thesis-draping',12)"><div class="m-ph" style="background:rgba(168,183,167,.05)"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label" style="color:var(--sage-deep)">Draping 13</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Draping 13</span></div></div>
+        <div class="m-item m-item-square" onclick="openLB('thesis-draping',13)"><div class="m-ph" style="background:rgba(168,183,167,.05)"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label" style="color:var(--sage-deep)">Draping 14</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Draping 14</span></div></div>
+        <div class="m-item m-item-tall" onclick="openLB('thesis-draping',14)"><div class="m-ph" style="background:rgba(168,183,167,.05)"><div class="m-ph-inner"><div class="m-ph-icon">🪢</div><p class="m-ph-label" style="color:var(--sage-deep)">Draping 15</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Draping 15</span></div></div>
+      </div>
+
+      <p class="thesis-gallery-title" style="margin-top:4rem">Progress — Sketch Development <span style="color:var(--mist);font-size:.6rem;letter-spacing:.1em">(5 images)</span></p>
+      <div class="masonry masonry-3" style="column-gap:3px">
+        <div class="m-item m-item-portrait" onclick="openLB('thesis-sketches',0)"><div class="m-ph" style="background:rgba(138,130,122,.06)"><div class="m-ph-inner"><div class="m-ph-icon">✏️</div><p class="m-ph-label">Sketch 01</p></div></div><div class="m-overlay"><span class="m-overlay-text">Sketch Development 01</span></div></div>
+        <div class="m-item m-item-tall" onclick="openLB('thesis-sketches',1)"><div class="m-ph" style="background:rgba(138,130,122,.06)"><div class="m-ph-inner"><div class="m-ph-icon">✏️</div><p class="m-ph-label">Sketch 02</p></div></div><div class="m-overlay"><span class="m-overlay-text">Sketch Development 02</span></div></div>
+        <div class="m-item m-item-portrait" onclick="openLB('thesis-sketches',2)"><div class="m-ph" style="background:rgba(138,130,122,.06)"><div class="m-ph-inner"><div class="m-ph-icon">✏️</div><p class="m-ph-label">Sketch 03</p></div></div><div class="m-overlay"><span class="m-overlay-text">Sketch Development 03</span></div></div>
+        <div class="m-item m-item-square" onclick="openLB('thesis-sketches',3)"><div class="m-ph" style="background:rgba(138,130,122,.06)"><div class="m-ph-inner"><div class="m-ph-icon">✏️</div><p class="m-ph-label">Sketch 04</p></div></div><div class="m-overlay"><span class="m-overlay-text">Sketch Development 04</span></div></div>
+        <div class="m-item m-item-tall" onclick="openLB('thesis-sketches',4)"><div class="m-ph" style="background:rgba(138,130,122,.06)"><div class="m-ph-inner"><div class="m-ph-icon">✏️</div><p class="m-ph-label">Sketch 05</p></div></div><div class="m-overlay"><span class="m-overlay-text">Sketch Development 05</span></div></div>
+      </div>
+
+      <p class="thesis-gallery-title" style="margin-top:4rem">Progress — Textile Development <span style="color:var(--mist);font-size:.6rem;letter-spacing:.1em">(10 images)</span></p>
+      <div class="masonry masonry-4" style="column-gap:3px">
+        <div class="m-item m-item-square" onclick="openLB('thesis-textiles',0)"><div class="m-ph" style="background:rgba(199,164,168,.06)"><div class="m-ph-inner"><div class="m-ph-icon">🧶</div><p class="m-ph-label" style="color:var(--rose-deep)">Textile 01</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Textile 01</span></div></div>
+        <div class="m-item m-item-portrait" onclick="openLB('thesis-textiles',1)"><div class="m-ph" style="background:rgba(199,164,168,.06)"><div class="m-ph-inner"><div class="m-ph-icon">🧶</div><p class="m-ph-label" style="color:var(--rose-deep)">Textile 02</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Textile 02</span></div></div>
+        <div class="m-item m-item-square" onclick="openLB('thesis-textiles',2)"><div class="m-ph" style="background:rgba(199,164,168,.06)"><div class="m-ph-inner"><div class="m-ph-icon">🧶</div><p class="m-ph-label" style="color:var(--rose-deep)">Textile 03</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Textile 03</span></div></div>
+        <div class="m-item m-item-tall" onclick="openLB('thesis-textiles',3)"><div class="m-ph" style="background:rgba(199,164,168,.06)"><div class="m-ph-inner"><div class="m-ph-icon">🧶</div><p class="m-ph-label" style="color:var(--rose-deep)">Textile 04</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Textile 04</span></div></div>
+        <div class="m-item m-item-portrait" onclick="openLB('thesis-textiles',4)"><div class="m-ph" style="background:rgba(199,164,168,.06)"><div class="m-ph-inner"><div class="m-ph-icon">🧶</div><p class="m-ph-label" style="color:var(--rose-deep)">Textile 05</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Textile 05</span></div></div>
+        <div class="m-item m-item-square" onclick="openLB('thesis-textiles',5)"><div class="m-ph" style="background:rgba(199,164,168,.06)"><div class="m-ph-inner"><div class="m-ph-icon">🧶</div><p class="m-ph-label" style="color:var(--rose-deep)">Textile 06</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Textile 06</span></div></div>
+        <div class="m-item m-item-portrait" onclick="openLB('thesis-textiles',6)"><div class="m-ph" style="background:rgba(199,164,168,.06)"><div class="m-ph-inner"><div class="m-ph-icon">🧶</div><p class="m-ph-label" style="color:var(--rose-deep)">Textile 07</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Textile 07</span></div></div>
+        <div class="m-item m-item-tall" onclick="openLB('thesis-textiles',7)"><div class="m-ph" style="background:rgba(199,164,168,.06)"><div class="m-ph-inner"><div class="m-ph-icon">🧶</div><p class="m-ph-label" style="color:var(--rose-deep)">Textile 08</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Textile 08</span></div></div>
+        <div class="m-item m-item-square" onclick="openLB('thesis-textiles',8)"><div class="m-ph" style="background:rgba(199,164,168,.06)"><div class="m-ph-inner"><div class="m-ph-icon">🧶</div><p class="m-ph-label" style="color:var(--rose-deep)">Textile 09</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Textile 09</span></div></div>
+        <div class="m-item m-item-portrait" onclick="openLB('thesis-textiles',9)"><div class="m-ph" style="background:rgba(199,164,168,.06)"><div class="m-ph-inner"><div class="m-ph-icon">🧶</div><p class="m-ph-label" style="color:var(--rose-deep)">Textile 10</p></div></div><div class="m-overlay"><span class="m-overlay-text">Thesis Textile 10</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-sect" id="contact">
+  <div class="contact-left">
+    <h2 class="reveal">Let's Create<br><em>Something</em><br>Beautiful</h2>
+    <p class="reveal reveal-delay-1">Open to collaborations, commissions, and creative opportunities. Whether you want to discuss the work or explore a project together — reach out.</p>
+    <div class="contact-links reveal reveal-delay-2">
+      <a href="mailto:rameenrazi9@gmail.com" class="c-link">
+        <span class="c-link-ic">✉</span> rameenrazi9@gmail.com
+      </a>
+      <a href="https://instagram.com/daily_aesthetics.1" target="_blank" class="c-link">
+        <span class="c-link-ic">◎</span> @daily_aesthetics.1
+      </a>
+    </div>
+  </div>
+  <div class="contact-right">Profile / Editorial Photo</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Rameen Razi</span>
+  <span class="footer-copy">Fashion Designer · rameenrazi9@gmail.com · © 2025</span>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb">
+  <button class="lb-close" onclick="closeLB()">✕</button>
+  <button class="lb-prev" onclick="lbNav(-1)">‹</button>
+  <button class="lb-next" onclick="lbNav(1)">›</button>
+  <div class="lb-content" id="lb-content">
+    <div class="lb-ph" id="lb-ph"><p class="lb-ph-label" id="lb-label">Image placeholder</p></div>
+  </div>
+  <div class="lb-counter" id="lb-counter"></div>
+</div>
+
+<script>
+// Cursor
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}animRing();
+document.querySelectorAll('a,button,.m-item,.port-btn,.pdf-strip,.c-link').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hovering'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hovering'));
+});
+
+// Loader
+window.addEventListener('load',()=>{
+  setTimeout(()=>{document.getElementById('loader').classList.add('hidden')},1800);
+});
+
+// Nav scroll
+const nav=document.getElementById('main-nav');
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('scrolled',window.scrollY>50);
+  const sects=['home','about','portfolio','thesis','contact'];
+  const dots=document.querySelectorAll('.hero-index-dot');
+  let curr=0;
+  sects.forEach((id,i)=>{
+    const el=document.getElementById(id||'home');
+    if(el&&window.scrollY>=el.offsetTop-200)curr=i;
+  });
+  dots.forEach((d,i)=>d.classList.toggle('active',i===curr));
+
+  // Subtle parallax for hero bg
+  const heroBg=document.querySelector('.hero-bg');
+  if(heroBg){
+    let offset=window.pageYOffset;
+    heroBg.style.transform=`scale(1.02) translateY(${offset*0.02}px)`;
+  }
+});
+
+// Reveal on scroll
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Portfolio tabs
+document.getElementById('port-nav').addEventListener('click',e=>{
+  const btn=e.target.closest('.port-btn');
+  if(!btn)return;
+  document.querySelectorAll('.port-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.port-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  const panel=document.getElementById(btn.dataset.panel);
+  if(panel){panel.classList.add('active');panel.scrollIntoView({behavior:'smooth',block:'start'});}
+});
+
+// Lightbox
+let lbGallery='',lbIdx=0,lbCount=0;
+const galleryCounts={moodboards:12,adda:3,bridal:12,denim:14,draping:15,craft:13,stitching:10,photography:20,thesis:10,'thesis-draping':15,'thesis-sketches':5,'thesis-textiles':10};
+function openLB(gallery,idx){
+  lbGallery=gallery;lbIdx=idx;lbCount=galleryCounts[gallery]||1;
+  renderLB();
+  document.getElementById('lb').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function renderLB(){
+  document.getElementById('lb-label').textContent=lbGallery+' — image '+(lbIdx+1)+' of '+lbCount+'\n(Replace this placeholder with your actual image)';
+  document.getElementById('lb-counter').textContent=(lbIdx+1)+' / '+lbCount;
+}
+function lbNav(dir){lbIdx=(lbIdx+dir+lbCount)%lbCount;renderLB();}
+function closeLB(){document.getElementById('lb').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('lb').addEventListener('click',e=>{if(e.target===document.getElementById('lb'))closeLB();});
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('lb').classList.contains('open')){
+    if(e.key==='Escape')closeLB();
+    if(e.key==='ArrowRight')lbNav(1);
+    if(e.key==='ArrowLeft')lbNav(-1);
+  }
+});
+
+function openPDF(name){
+  document.getElementById('lb-label').textContent=name+'\n\nTo enable PDF preview:\n1. Upload your PDF file to your hosting\n2. Replace href="#" with your file path\n3. The PDF will open in a new tab or embed here';
+  document.getElementById('lb-counter').textContent='PDF Document';
+  document.getElementById('lb').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+</script>
+</body>
+</html>
